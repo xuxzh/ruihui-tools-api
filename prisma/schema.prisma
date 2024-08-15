@@ -21,8 +21,10 @@ model aac_user {
   salt       String?
   email      String
   mobile     String?
-  tellphone  String?
+  telephone  String?
   remark     String?
+  deleted    Boolean  @default(false)
   createdaAt DateTime @default(now())
   updatedAt  DateTime @updatedAt
+  deletedAt  DateTime
 }
