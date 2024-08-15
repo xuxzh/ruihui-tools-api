@@ -12,3 +12,17 @@ datasource db1 {
   provider = "mysql"
   url      = env("DATABASE_URL")
 }
+
+model aac_user {
+  id         Int      @id @default(autoincrement())
+  userCode   String   @unique
+  userName   String
+  password   String?
+  salt       String?
+  email      String
+  mobile     String?
+  tellphone  String?
+  remark     String?
+  createdaAt DateTime @default(now())
+  updatedAt  DateTime @updatedAt
+}
