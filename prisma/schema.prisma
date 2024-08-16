@@ -14,17 +14,17 @@ datasource db1 {
 }
 
 model aac_user {
-  id         Int       @id @default(autoincrement())
-  userCode   String    @unique
-  userName   String
-  password   String?
-  salt       String?
-  email      String
-  mobile     String?
-  telephone  String?
-  remark     String?
-  deleted    Boolean   @default(false)
-  deletedAt  DateTime?
-  createdaAt DateTime  @default(now())
-  updatedAt  DateTime  @updatedAt
+  id        Int       @id @default(autoincrement())
+  userCode  String    @unique
+  userName  String
+  password  String?
+  salt      String?
+  email     String
+  mobile    String?
+  telephone String?
+  remark    String?
+  deleted   Boolean   @default(false)
+  deletedAt DateTime?
+  createdAt DateTime  @default(now())
+  updatedAt DateTime  @updatedAt
 }
