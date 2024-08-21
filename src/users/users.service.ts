@@ -1,7 +1,7 @@
 import { Injectable } from '@nestjs/common';
 import { CreateUserDto } from './dto/create-user.dto';
 import { UpdateUserDto } from './dto/update-user.dto';
-import { PrismaService } from 'src/prisma/prisma.service';
+import { EncryptService, PrismaService } from '@core';
 
 const select = {
   id: true,
@@ -17,11 +17,18 @@ const select = {
 
 @Injectable()
 export class UsersService {
-  constructor(private prisma: PrismaService) {
+  constructor(
+    private prisma: PrismaService,
+    private encryptSer: EncryptService,
+  ) {
     //
   }
   create(createUserDto: CreateUserDto) {
-    return this.prisma.aac_user.create({ data: createUserDto, select });
+    const salt = this.encryptSer.genSalt();
+    const password = this.encryptSer.hash(createUserDto.password, salt);
+    createUserDto.password = password;
+    createUserDto.salt = salt;
+    return this.prisma.aac_user.create({ data: createUserDto });
   }
 
   findAll() {

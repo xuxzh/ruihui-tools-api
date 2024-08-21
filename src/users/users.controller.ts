@@ -12,6 +12,7 @@ import { CreateUserDto } from './dto/create-user.dto';
 import { UpdateUserDto } from './dto/update-user.dto';
 import { ApiCreatedResponse, ApiOkResponse, ApiTags } from '@nestjs/swagger';
 import { UserEntity } from './entities/user.entity';
+import { pick } from 'lodash';
 
 @Controller('users')
 @ApiTags('users')
@@ -21,7 +22,16 @@ export class UsersController {
   @Post()
   @ApiCreatedResponse({ type: UserEntity })
   create(@Body() createUserDto: CreateUserDto) {
-    return this.usersService.create(createUserDto);
+    const finalUser = pick(createUserDto, [
+      'userCode',
+      'userName',
+      'password',
+      'email',
+      'mobile',
+      'telephone',
+      'remark',
+    ]);
+    return this.usersService.create(finalUser as CreateUserDto);
   }
 
   @Get()
