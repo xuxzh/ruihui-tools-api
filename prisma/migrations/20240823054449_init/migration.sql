@@ -7,9 +7,11 @@ CREATE TABLE `aac_user` (
     `salt` VARCHAR(191) NULL,
     `email` VARCHAR(191) NOT NULL,
     `mobile` VARCHAR(191) NULL,
-    `tellphone` VARCHAR(191) NULL,
+    `telephone` VARCHAR(191) NULL,
     `remark` VARCHAR(191) NULL,
-    `createdaAt` DATETIME(3) NOT NULL DEFAULT CURRENT_TIMESTAMP(3),
+    `deleted` BOOLEAN NOT NULL DEFAULT false,
+    `deletedAt` DATETIME(3) NULL,
+    `createdAt` DATETIME(3) NOT NULL DEFAULT CURRENT_TIMESTAMP(3),
     `updatedAt` DATETIME(3) NOT NULL,
 
     UNIQUE INDEX `aac_user_userCode_key`(`userCode`),
