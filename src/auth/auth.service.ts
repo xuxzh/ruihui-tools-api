@@ -15,6 +15,7 @@ export class AuthService {
     private jwtSer: JwtService,
   ) {}
   async login(dto: LoginDto) {
+    console.log('dto', dto);
     const { userCode } = dto;
     const findUser = await this.prisma.aac_user.findUnique({
       select: { id: true, password: true, userName: true, userCode: true },
@@ -39,8 +40,18 @@ export class AuthService {
     }
   }
 
-  refreshToken() {
-    console.log('works !!!');
+  refreshToken(refreshToken: string) {
+    try {
+      const { id } = this.jwtSer.verify(refreshToken, {
+        secret: jwtConstants.refreshSecret,
+      });
+
+      return this.createTokens({ id });
+    } catch (e) {
+      throw new UnauthorizedException(
+        AuthUnauthorized.TokenFailureOrValidationFailure,
+      );
+    }
   }
 
   private createTokens(payload: { id: number }): Auth {
