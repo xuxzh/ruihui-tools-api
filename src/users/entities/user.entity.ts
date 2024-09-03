@@ -27,4 +27,8 @@ export class UserEntity implements aac_user {
   createdAt: Date;
   @ApiProperty()
   updatedAt: Date;
+  @ApiProperty()
+  creator: string;
+  @ApiProperty()
+  updater: string;
 }

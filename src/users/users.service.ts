@@ -13,6 +13,8 @@ const select = {
   remark: true,
   updatedAt: true,
   createdAt: true,
+  creator: true,
+  updater: true,
 };
 
 @Injectable()

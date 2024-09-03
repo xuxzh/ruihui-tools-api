@@ -19,6 +19,7 @@
     "noFallthroughCasesInSwitch": false,
     "paths": {
       "@model": ["src/model/index"],
+      "@data": ["src/data/index"],
       "@core": ["src/core/index"],
       "@shared": ["src/shared/index"]
     }
