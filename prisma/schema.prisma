@@ -1,16 +1,12 @@
-// This is your Prisma schema file,
-// learn more about it in the docs: https://pris.ly/d/prisma-schema
-
-// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
-// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
-
 generator client {
-  provider = "prisma-client-js"
+  provider        = "prisma-client-js"
+  previewFeatures = ["multiSchema"]
 }
 
 datasource db {
   provider = "postgresql"
   url      = env("DATABASE_URL")
+  schemas  = ["public", "business"]
 }
 
 model aac_user {
@@ -27,4 +23,38 @@ model aac_user {
   deletedAt DateTime?
   createdAt DateTime  @default(now())
   updatedAt DateTime  @updatedAt
+  creator   String?
+  updater   String?
+
+  @@schema("public")
+}
+
+model supplier_list {
+  id           Int       @id @default(autoincrement())
+  supplierCode String    @unique
+  supplierName String
+  remark       String?
+  deleted      Boolean   @default(false)
+  deletedAt    DateTime?
+  createdAt    DateTime  @default(now())
+  updatedAt    DateTime  @updatedAt
+  creator      String?
+  updater      String?
+
+  @@schema("business")
+}
+
+model customer_list {
+  id           Int       @id @default(autoincrement())
+  customerCode String    @unique
+  customerName String
+  remark       String?
+  deleted      Boolean   @default(false)
+  deletedAt    DateTime?
+  createdAt    DateTime  @default(now())
+  updatedAt    DateTime  @updatedAt
+  creator      String?
+  updater      String?
+
+  @@schema("business")
 }
