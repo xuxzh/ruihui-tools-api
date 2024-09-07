@@ -1,4 +1,4 @@
-import { IRhResponse } from '@model';
+import { IRhResponse, RhSafeAny } from '@model';
 import { ArgumentsHost, ExceptionFilter, HttpException } from '@nestjs/common';
 import { HttpAdapterHost } from '@nestjs/core';
 
@@ -38,9 +38,9 @@ export class ResponseFilter implements ExceptionFilter {
   private responseHandler(
     origin: ErrorResponseType,
     errorMessage?: string[],
-  ): IRhResponse {
+  ): IRhResponse<RhSafeAny> {
     console.log('origin', origin);
-    const result = {} as IRhResponse;
+    const result = {} as IRhResponse<RhSafeAny>;
     result.message = Array.isArray(origin.message)
       ? origin.message.toString()
       : origin.message || errorMessage?.toString() || '';

@@ -1,7 +1,7 @@
 import { HttpAdapterHost, NestFactory } from '@nestjs/core';
 import { AppModule } from './app.module';
 import { SwaggerModule, DocumentBuilder } from '@nestjs/swagger';
-import { ResponseFilter, ResponseFormatInterceptor } from '@core';
+import { ResponseFilter } from '@core';
 import { ValidationPipe, ValidationPipeOptions } from '@nestjs/common';
 
 async function bootstrap() {
@@ -20,7 +20,7 @@ async function bootstrap() {
 
   app.useGlobalPipes(new ValidationPipe(validationOption));
 
-  app.useGlobalInterceptors(new ResponseFormatInterceptor());
+  // app.useGlobalInterceptors(new ResponseFormatInterceptor());
 
   const config = new DocumentBuilder()
     .setTitle('RuiHui Tools API')

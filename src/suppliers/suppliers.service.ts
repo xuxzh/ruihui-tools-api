@@ -1,7 +1,7 @@
 import { Injectable } from '@nestjs/common';
 import { CreateSupplierDto } from './dto/create-supplier.dto';
 import { UpdateSupplierDto } from './dto/update-supplier.dto';
-import { PrismaService } from '@core';
+import { PrismaService, responseFormat } from '@core';
 
 @Injectable()
 export class SuppliersService {
@@ -12,22 +12,26 @@ export class SuppliersService {
     return this.prisma.supplier_list.create({ data: createSupplierDto });
   }
 
-  findAll() {
-    return this.prisma.supplier_list.findMany();
+  async findAll() {
+    const data = await this.prisma.supplier_list.findMany();
+    return responseFormat(data, { message: '获取供应商数据成功' });
   }
 
   findOne(id: number) {
-    return this.prisma.supplier_list.findUnique({ where: { id } });
+    const data = this.prisma.supplier_list.findUnique({ where: { id } });
+    return responseFormat(data, { message: '获取指定供应商数据成功' });
   }
 
   update(id: number, updateSupplierDto: UpdateSupplierDto) {
-    return this.prisma.supplier_list.update({
+    const data = this.prisma.supplier_list.update({
       where: { id },
       data: updateSupplierDto,
     });
+    return responseFormat(data, { message: '更新指定供应商数据成功！' });
   }
 
   remove(id: number) {
-    return this.prisma.supplier_list.delete({ where: { id } });
+    const data = this.prisma.supplier_list.delete({ where: { id } });
+    return responseFormat(data, { message: '删除指定供应商数据成功' });
   }
 }

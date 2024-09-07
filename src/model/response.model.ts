@@ -1,12 +1,12 @@
-export interface IRhResponse {
+export interface IRhResponse<T> {
   statusCode: number;
   success: boolean;
   message?: string;
-  result: IDataResult;
+  result: IDataResult<T>;
 }
 
-export interface IDataResult {
-  data: any;
+export interface IDataResult<T> {
+  data: T;
   // 以下三个属性仅在查询结果中出现
   total?: number;
   size?: number;

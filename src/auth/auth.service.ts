@@ -1,11 +1,12 @@
 import { Injectable, UnauthorizedException } from '@nestjs/common';
-import { LoginDto } from './auth.model';
+import { LoginDto, LogoutDto } from './auth.model';
 import { AuthUnauthorized, jwtConstants } from '@model';
 import { EncryptService } from 'src/core/services/encrypt.service';
 import { JwtService } from '@nestjs/jwt';
 import { PrismaService } from 'src/core/services/prisma.service';
 import { Auth } from 'src/model/auth.model';
 import { pick } from 'lodash';
+import { responseFormat } from '@core';
 
 @Injectable()
 export class AuthService {
@@ -14,6 +15,7 @@ export class AuthService {
     private encryptSer: EncryptService,
     private jwtSer: JwtService,
   ) {}
+
   async login(dto: LoginDto) {
     console.log('dto', dto);
     const { userCode } = dto;
@@ -36,8 +38,13 @@ export class AuthService {
       );
     } else {
       const payload = pick(findUser, ['id', 'userCode', 'userName']);
-      return this.createTokens(payload);
+      const data = this.createTokens(payload);
+      return responseFormat(data, { message: `用户${userCode}登录成功` });
     }
+  }
+
+  async logout(dto: LogoutDto) {
+    return responseFormat(null, { message: `用户${dto.userCode}登出成功` });
   }
 
   refreshToken(refreshToken: string) {
@@ -46,7 +53,8 @@ export class AuthService {
         secret: jwtConstants.refreshSecret,
       });
 
-      return this.createTokens({ id });
+      const data = this.createTokens({ id });
+      return responseFormat(data, { message: '刷新token成功' });
     } catch (e) {
       throw new UnauthorizedException(
         AuthUnauthorized.TokenFailureOrValidationFailure,
