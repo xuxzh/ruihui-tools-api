@@ -1,5 +1,5 @@
 import { Injectable, UnauthorizedException } from '@nestjs/common';
-import { LoginDto, LogoutDto } from './auth.model';
+import { IAuthUser, LoginDto, LogoutDto } from './auth.model';
 import { AuthUnauthorized, jwtConstants } from '@model';
 import { EncryptService } from 'src/core/services/encrypt.service';
 import { JwtService } from '@nestjs/jwt';
@@ -39,7 +39,8 @@ export class AuthService {
     } else {
       const payload = pick(findUser, ['id', 'userCode', 'userName']);
       const data = this.createTokens(payload);
-      return responseFormat(data, { message: `用户${userCode}登录成功` });
+      const authUser: IAuthUser = { ...payload, ...data };
+      return responseFormat(authUser, { message: `用户${userCode}登录成功` });
     }
   }
 

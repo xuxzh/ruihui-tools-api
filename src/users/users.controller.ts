@@ -21,7 +21,7 @@ export class UsersController {
 
   @Post()
   @ApiCreatedResponse({ type: UserEntity })
-  create(@Body() createUserDto: CreateUserDto) {
+  async create(@Body() createUserDto: CreateUserDto) {
     const finalUser = pick(createUserDto, [
       'userCode',
       'userName',
@@ -31,7 +31,7 @@ export class UsersController {
       'telephone',
       'remark',
     ]);
-    return this.usersService.create(finalUser as CreateUserDto);
+    return await this.usersService.create(finalUser as CreateUserDto);
   }
 
   @Get()
